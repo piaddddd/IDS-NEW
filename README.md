@@ -24,33 +24,31 @@ Step 2: Configure Database
 
 $conn = new mysqli("localhost", "root", "", "app_db");
 
-Step 3: Setup ESP32 / Arduino
-
-1. Open Arduino IDE.
-2. Install ESP32 board package.
-3. Open the provided ".ino" file.
-4. Enter your Wi-Fi name and password.
-5. Update the server URL.
-
-Example:
-
-http.begin("http://your-ip-address/project/insert.php");
-
-Step 4: Upload Code
+Step 3: Upload Code
 
 1. Connect ESP32 to your computer.
 2. Select the correct COM port.
 3. Click Upload.
 
-Step 5: Run the System
+Step 4: Run the System
 
 1. Power on the ESP32.
 2. Wait for Wi-Fi connection.
 3. Move in front of the PIR sensor.
 4. Check the dashboard for alerts/logs.
 
-Notes
+Good morning @everyone 
 
-- If using online hosting, replace localhost URL with your domain.
-- Ensure ESP32 and server are connected properly.
-- Sensor placement affects accuracy.
+Attention to all ! Please include this in your GitHub file.
+
+- In the readme file.
+
+Example
+
+A-P - "admin@system.com" - "admin123"
+
+U-P - "charlie.an@gmail.com" - "charlie12"
+
+(origin - A-P = admin password and username )
+
+(U-P - User username and Password )
