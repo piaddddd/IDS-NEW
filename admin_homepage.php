@@ -44,7 +44,6 @@ if (isset($_POST['add_sensor'])) {
     }
 }
 
-/* ================= RECENT DETECTIONS ================= */
 $res = $conn->query("
     SELECT ma.timestamp, s.homeowner_name, s.block, s.lot, s.location_name
     FROM motion_alerts ma
@@ -52,7 +51,6 @@ $res = $conn->query("
     ORDER BY ma.timestamp DESC
 ");
 
-/* ================= OPTIMIZED MONTH DATA ================= */
 $year = date("Y");
 
 $result = $conn->query("
@@ -90,7 +88,6 @@ while ($row = $result->fetch_assoc()) {
 
 <style>
 
-/* GLOBAL */
 body {
     margin:0;
     font-family:Arial;
@@ -119,7 +116,6 @@ body {
     border-radius:10px;
 }
 
-/* METRICS */
 .metrics {
     display:grid;
     grid-template-columns:repeat(4,1fr);
@@ -136,13 +132,11 @@ body {
 
 .metric-box h2 { color:orange; }
 
-/* MAP */
 #map {
     height:320px;
     border-radius:10px;
 }
 
-/* TABLE */
 table {
     width:100%;
     border-collapse:collapse;
@@ -153,13 +147,11 @@ th, td {
     border-bottom:1px solid #444;
 }
 
-/* SCROLL */
 .scroll-box {
     max-height:300px;
     overflow-y:auto;
 }
 
-/* BUTTON */
 .btn {
     background:orange;
     border:none;
@@ -170,7 +162,6 @@ th, td {
     width:100%;
 }
 
-/* MODALS */
 #sensorModal, #monthModal {
     display:none;
     position:fixed;
@@ -187,14 +178,12 @@ th, td {
     width:450px;
     border-radius:12px;
 
-    /* FIX CENTER + ALIGN */
     display:flex;
     flex-direction:column;
     align-items:stretch;
     gap:12px;
 }
 
-/* FORM INSIDE MODAL */
 .modal-box form {
     display:flex;
     flex-direction:column;
@@ -202,7 +191,6 @@ th, td {
     width:100%;
 }
 
-/* INPUT ALIGNMENT FIX */
 .modal-box input {
     width:100%;
     padding:12px 14px;
@@ -214,13 +202,11 @@ th, td {
     box-sizing:border-box;
 }
 
-/* TITLE FIX */
 .modal-box h3 {
     text-align:center;
     margin:0;
     margin-bottom:5px;
 }
-/* MONTH */
 .month-item {
     padding:10px;
     border-bottom:1px solid #444;
@@ -241,7 +227,6 @@ th, td {
 
 <div class="dashboard">
 
-<!-- LEFT -->
 <div>
 
     <div class="card">
@@ -275,7 +260,6 @@ th, td {
 
 </div>
 
-<!-- RIGHT -->
 <div>
 
     <div class="card">
@@ -373,7 +357,6 @@ th, td {
 
 </div>
 
-<!-- SENSOR MODAL -->
 <div id="sensorModal">
 <div class="modal-box">
 
@@ -401,7 +384,6 @@ th, td {
 </div>
 </div>
 
-<!-- MONTH MODAL -->
 <div id="monthModal">
 <div class="month-box">
 
@@ -425,15 +407,13 @@ for ($m=1;$m<=12;$m++){
 
 var map = L.map('map').setView([10.7206,122.5630],17);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-
-/* MODALS */
+    
 function openModal(){ document.getElementById("sensorModal").style.display="flex"; }
 function closeModal(){ document.getElementById("sensorModal").style.display="none"; }
 
 function openMonthModal(){ document.getElementById("monthModal").style.display="flex"; }
 function closeMonthModal(){ document.getElementById("monthModal").style.display="none"; }
 
-/* CHART */
 const monthlyData = <?= json_encode($monthlyData) ?>;
 
 let chart = new Chart(document.getElementById('monthlyChart'), {
