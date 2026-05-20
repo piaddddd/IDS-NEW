@@ -1,13 +1,13 @@
 <?php
 session_start();
-require 'conn.php'; // ✅ This line fixes the error
+require 'conn.php'; 
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit;
 }
 
-// Fetch user info from DB to ensure it's current
+
 $user_id = $_SESSION['user_id'];
 $query = $conn->prepare("SELECT FULLNAME, EMAIL, CONTACT_NUM FROM users WHERE id = ?");
 $query->bind_param("i", $user_id);
@@ -316,7 +316,7 @@ $contact = htmlspecialchars($user['CONTACT_NUM']);
             <i class="fas fa-history"></i>
             <p>Motion History</p>
         </div>
-        <!-- Dashboard button -->
+        
         <div class="box" onclick="openModal('dashboardModal')">
             <i class="fas fa-chart-line"></i>
             <p>Dashboard</p>
@@ -369,14 +369,14 @@ $contact = htmlspecialchars($user['CONTACT_NUM']);
                         die("Connection failed: " . $conn->connect_error);
                     }
 
-                    // Handle single delete
+                
                     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["delete_id"])) {
                         $delete_id = intval($_POST["delete_id"]);
                         $conn->query("DELETE FROM motion_alerts WHERE id = $delete_id");
                         
                     }
 
-                    // Handle delete all
+            
                     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["clear_all"])) {
                         $conn->query("DELETE FROM motion_alerts");
                        
@@ -412,7 +412,7 @@ $contact = htmlspecialchars($user['CONTACT_NUM']);
                 </tbody>
             </table>
 
-            <!-- Clear All Button -->
+        
             <form method="POST" style="text-align:center; margin-top:20px;" onsubmit="return confirm('Are you sure you want to delete all motion history?');">
                 <button type="submit" name="clear_all" 
                     style="background-color:#FF0000;color:white;padding:10px 20px;
@@ -429,7 +429,6 @@ $conn = new mysqli("localhost", "root", "", "app_db");
 
 $monthlyData = [];
 
-// Group by MONTH and DAY
 $sql = "
     SELECT 
         DATE(timestamp) as day,
@@ -463,7 +462,7 @@ $conn->close();
         <span class="close" onclick="closeModal('dashboardModal')">&times;</span>
         <h2>Dashboard</h2>
 
-        <!-- Container for all charts -->
+        
         <div id="chartsContainer"></div>
 
     </div>
@@ -480,7 +479,7 @@ $conn->close();
 
             <hr class="settings-separator">
 
-            <!-- Sensor status panel inside Settings (hidden by default) -->
+
             <div id="sensorStatusPanel" class="hidden" style="text-align:left; margin-top:10px;">
                 <h3 style="color:#f57c00; margin-bottom:6px;">Sensor Status</h3>
                 <table class="sensor-status-table">
@@ -493,7 +492,7 @@ $conn->close();
                     </thead>
                     <tbody>
                         <?php
-                        // reuse same query logic to list sensors here
+                
                         $conn = new mysqli("localhost", "root", "", "app_db");
                         if ($conn->connect_error) {
                             echo '<tr><td colspan="3" style="background:#c00; color:#fff; padding:12px; border-radius:8px;">Connection failed: '.htmlspecialchars($conn->connect_error).'</td></tr>';
@@ -543,7 +542,7 @@ $conn->close();
             <hr class="settings-separator">
 
             <div style="text-align:center;">
-                <!-- Toggle placed directly under Profile button and centered -->
+            
                 <label class="switch">
                     <input type="checkbox" id="sensorToggle" onchange="toggleSensor(this)">
                     <span class="slider"></span>
@@ -562,7 +561,7 @@ $conn->close();
         </div>
     </div>
 
-    <!-- Intruder Alert Modal -->
+
     <div id="intruderAlertModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('intruderAlertModal')">&times;</span>
@@ -575,12 +574,12 @@ $conn->close();
     </div>
 
     <script>
-        let lastAlertId = null; // Track the last alert ID
+        let lastAlertId = null; 
 
         function openModal(modalId) {
     document.getElementById(modalId).style.display = "block";
 
-    // Load chart when dashboard opens
+
     if (modalId === 'dashboardModal') {
         setTimeout(loadChart, 300);
     }
@@ -628,8 +627,6 @@ $conn->close();
             closeModal('dialModal');
             openModal('intruderAlertModal');
         }
-
-        /* Toggle handler */
         function toggleSensor(checkbox) {
             const state = checkbox.checked ? 'on' : 'off';
             document.getElementById('sensorStatusText').innerText = 'Sensor is ' + state.toUpperCase();
@@ -644,7 +641,6 @@ $conn->close();
             .catch(e => console.error('toggle error', e));
         }
 
-        /* show/hide sensor status panel inside settings */
         function toggleSensorStatus() {
             const panel = document.getElementById('sensorStatusPanel');
             const btn = document.getElementById('sensorStatusBtn');
@@ -658,7 +654,6 @@ $conn->close();
             }
         }
 
-        /* Load current state on page load */
         window.addEventListener('load', () => {
             fetch('get_sensor_state.php?sensor=PIR_LivingRoom')
                 .then(response => response.json())
@@ -678,17 +673,17 @@ $conn->close();
 
 function loadChart() {
     const container = document.getElementById('chartsContainer');
-    container.innerHTML = ""; // clear old charts
+    container.innerHTML = "";
 
     Object.keys(motionData).forEach(month => {
 
-        // Title
+    
         const title = document.createElement('h3');
         title.innerText = "Month: " + month;
         title.style.color = "#FFA500";
         container.appendChild(title);
 
-        // Canvas
+        
         const canvas = document.createElement('canvas');
         canvas.style.marginBottom = "40px";
         container.appendChild(canvas);
@@ -702,8 +697,7 @@ function loadChart() {
             labels.push(item.day);
             values.push(item.total);
         });
-
-        // Chart
+        
         new Chart(ctx, {
             type: 'line',
             data: {
