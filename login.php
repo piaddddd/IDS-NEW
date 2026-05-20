@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
 
-    // ✅ CHECK IF USER EXISTS FIRST
+
     if ($row) {
 
         if (password_verify($password, $row["PASSWORD"])) {
@@ -30,8 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $_SESSION["user_id"] = $row["ID"];
             $_SESSION["role"] = $row["role"];
 
-            // DEBUG OPTION (uncomment if needed)
-            // var_dump($row["role"]); exit;
+
 
             if ($row["role"] === "admin") {
                 header("Location: admin_homepage.php");
