@@ -1,11 +1,7 @@
 <?php
 session_start();
 
-// OPTIONAL SECURITY
-// if ($_SESSION["email"] !== "admin@system.com") {
-//     header("Location: login.php");
-//     exit;
-// }
+
 ?>
 
 <!DOCTYPE html>
